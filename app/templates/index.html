@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Меню Роллов</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>Меню Роллов</h1>
+</header>
+
+<div class="sort-container">
+    <form method="GET" action="">
+        <label for="sort">Сортировка:</label>
+        <select name="sort" id="sort" onchange="this.form.submit()">
+            <option value="" {% if not sort %}selected{% endif %}>Без сортировки</option>
+            <option value="weight_asc" {% if sort == 'weight_asc' %}selected{% endif %}>По весу (возрастание)</option>
+            <option value="weight_desc" {% if sort == 'weight_desc' %}selected{% endif %}>По весу (убывание)</option>
+            <option value="ingredient_los" {% if sort == 'ingredient_los' %}selected{% endif %}>Лосось</option>
+            <option value="ingredient_tun" {% if sort == 'ingredient_tun' %}selected{% endif %}>Тунец</option>
+            <option value="ingredient_krev" {% if sort == 'ingredient_krev' %}selected{% endif %}>Креветки</option>
+        </select>
+    </form>
+</div>
+
+{% if no_rolls_message %}
+    <div class="no-rolls-message">
+        <p>{{ no_rolls_message }}</p>
+    </div>
+{% endif %}
+
+<div class="rolls-list">
+    {% for roll in rolls %}
+    <div class="roll-item">
+        <img src="{{ roll.image_url }}" alt="{{ roll.name }}">
+        <h3>{{ roll.name }}</h3>
+        <p>{{ roll.ingredients }}</p>
+        <p>{{ roll.weight }}</p>
+        <p class="price">{{ roll.price }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+
+</body>
+</html>
